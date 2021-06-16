@@ -35,7 +35,7 @@ extern int lineNumber; //!<  External line counter
 %start program 
 
 /* Defined token */
-%token NUMBER
+%token LEER
 
 /* Left associativity  */
 
