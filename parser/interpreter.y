@@ -36,6 +36,35 @@ extern int lineNumber; //!<  External line counter
 
 /* Defined token */
 %token LEER
+%token LEER_CADENA
+%token ESCRIBIR
+%token ESCRIBIR_CADENA
+%token SI
+%token ENTONCES
+%token SI_NO
+%token FIN_SI
+%token MIENTRAS
+%token HACER
+%token FIN_MIENTRAS
+%token REPETIR
+%token HASTA
+%token PARA
+%token FIN_PARA
+%token DESDE
+%token PASO
+%token CASOS
+%token VALOR
+%token DEFECTO
+%token FIN_CASOS
+%token VERDADERO
+%token FALSO
+%token MOD
+%token DIV
+%token O
+%token Y
+%token NO
+%token BORRAR
+%token LUGAR
 
 /* Left associativity  */
 
