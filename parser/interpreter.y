@@ -74,6 +74,9 @@ stmtlist:  /* Empty: epsilon rule */
 
 	std::cout << "stmtlist -->  stmtlist error '\\n' " << std::endl;
 };
+
+exp: LEER 
+{ std::cout << "exp --> LEER" << std::endl;};
  
 %%
 
