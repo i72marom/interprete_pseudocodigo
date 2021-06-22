@@ -1,4 +1,5 @@
 # MAKEFILE for parser
+
 NAME=interpreter
 
 # Compiler
@@ -26,38 +27,42 @@ YACC= bison
 #     this file can be seen on the screen using 
 #       dot -Tx11 y.dot 
 #       Alternatives 
-#	 	dot -TXXX NAME.dot -o NAME.XXX
+#	 	dot -TXXX y.dot -o y.XXX
 #	    where XXX can be: gif, pdf, png, ps, svg
-# -v  the file NAME.output is generated (OPTIONAL)
+# -v  the file y.output is generated (OPTIONAL)
 YFLAGS = -d -t -g
 
 # Objects
 OBJECTS= $(NAME).tab.o lex.yy.o 
 
 # Includes
-INCLUDES = ../error/error.hpp ../includes/macros.hpp
+# MODIFIED in example 7: ../table/table.hpp  ../table/numericVariable.hpp
+# MODIFIED in example 10: ../table/init.hpp
+# MODIFIED in example 11: ../table/numericConstant.hpp
+# MODIFIED in example 13: ../table/builtinParameter1.hpp
+# MODIFIED in example 14: ../table/builtinParameter0.hpp ../table/builtinParameter2.hpp
+# MODIFIED in example 15: ./includes/Value.hpp
+INCLUDES = ../error/error.hpp ../includes/macros.hpp \
+			../table/table.hpp  ../table/numericVariable.hpp \
+			../table/init.hpp \
+			../table/numericConstant.hpp \
+			../table/builtinParameter1.hpp \
+			../table/builtinParameter0.hpp	../table/builtinParameter2.hpp 
 
-# Predefined macros 
-#
-# $@: name of the target
-# $^: all the dependencies
-# $<: first dependency
-#
+
 #######################################################
 
-# Main rule
+# Regla principal
 
 all: $(OBJECTS)
 
 
-# Subrules 
+# Subreglas
 
 # Lexical analyzer
 # -Wno-unused-function, -Wno-sign-compare: these error messages are not displayed
-lex.yy.o:  lex.yy.c $(NAME).tab.h $(INCLUDES)
-	@echo "Compiling: " $<
-	@$(CPP) $(CFLAGS)  -Wno-unused-function  -Wno-sign-compare $<
-	@echo
+lex.yy.o:  lex.yy.c $(NAME).tab.h
+	$(CPP) $(CFLAGS)  -Wno-unused-function  -Wno-sign-compare $<
 
 lex.yy.c: $(NAME).l $(NAME).tab.h $(INCLUDES)
 	@echo "Generating: " $@
@@ -65,7 +70,7 @@ lex.yy.c: $(NAME).l $(NAME).tab.h $(INCLUDES)
 	@echo
 
 # Parser
-$(NAME).tab.o: $(NAME).tab.c $(NAME).tab.h  
+$(NAME).tab.o: $(NAME).tab.c  $(NAME).tab.h $(INCLUDES)
 	@echo "Compiling: " $<
 	@$(CPP) $(CFLAGS) $<
 	@echo
@@ -76,16 +81,17 @@ $(NAME).tab.c $(NAME).tab.h: $(NAME).y $(INCLUDES)
 	@echo
 
 
+
 #######################################################
 # Generate the output file to show conflicts, if they exist
-$(NAME).output: $(NAME).y $(INCLUDES)
+$(NAME).output: $(NAME).y $(INCLUDES) 
 	@echo "Generating: " $@
 	@$(YACC) -v $< 
 	@echo
 
 
 #######################################################
-# Auxiliary files are deleted
+# Auxiliary files directory are deleted
 clean: 
 	@echo
 	@echo "Deleting in subdirectory parser"
