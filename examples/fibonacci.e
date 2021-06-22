@@ -14,7 +14,7 @@ sino
 	b := 1;
 	c := 0;
 
-	para i desde 0 hasta n paso 1 hacer
+	para i desde 2 hasta n paso 1 hacer
 		c := b + a;
 		a := b;
 		b := c;
