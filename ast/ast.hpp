@@ -24,374 +24,304 @@
 
 
 
-namespace lp
-{
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-/*!	
-  \class   ExpNode
-  \brief   Definition of atributes and methods of ExpNode class
-  \warning Abstract class
-*/
- class ExpNode 
-{
-  public:
-	/*!	
-		\brief   Type of  the expression
-		\warning Pure virtual function: must be redefined in the heir classes
-		\return  int
-		\sa		 print
-	*/
-    virtual int getType() = 0;
-
+namespace lp {
 
 	/*!	
-		\brief   Print the expression
-		\warning Pure virtual function: must be redefined in the heir classes
-		\return  void
-		\sa		 evaluate()
+	  \class   ExpNode
+	  \brief   Definition of atributes and methods of ExpNode class
+	  \warning Abstract class
 	*/
-    virtual void print() = 0;
+	class ExpNode {
+		public:
+			/*!	
+			\brief   Type of  the expression
+			\warning Pure virtual function: must be redefined in the heir classes
+			\return  int
+			\sa		 print
+			*/
+			virtual int getType() = 0;
+
+
+			/*!	
+			\brief   Print the expression
+			\warning Pure virtual function: must be redefined in the heir classes
+			\return  void
+			\sa		 evaluate()
+			*/
+			virtual void print() = 0;
+
+			/*!	
+			\brief   Evaluate the expression as NUMBER
+			\warning Virtual function: could be redefined in the heir classes
+			\return  double
+			\sa		 print
+			*/
+			virtual double evaluateNumber() { return 0.0; }		
+
+
+			/*!	
+			\brief   Evaluate the expression as BOOL
+			\warning Virtual function: could be redefined in the heir classes
+			\return  bool
+			\sa		 print
+			*/
+			virtual bool evaluateBool() { return false; }
+
+			/*!	
+			\brief   Evaluate the expression as BOOL
+			\warning Virtual function: could be redefined in the heir classes
+			\return  bool
+			\sa		 print
+			*/
+			virtual std::string evaluateString() { return ""; }
+	};
 
 	/*!	
-		\brief   Evaluate the expression as NUMBER
-		\warning Virtual function: could be redefined in the heir classes
-		\return  double
-		\sa		 print
+	\class VariableNode
+	\brief Definition of atributes and methods of VariableNode class
+	\note  VariableNode Class publicly inherits from ExpNode class
 	*/
-    virtual double evaluateNumber()
-	{
-		return 0.0;
-	}		
+	class VariableNode : public ExpNode {
+		private:
+			std::string _id; //!< Name of the VariableNode
 
+		public:
+
+			/*!		
+			\brief Constructor of VariableNode
+			\param value: double
+			\post  A new NumericVariableNode is created with the name of the parameter
+			\note  Inline function
+			*/
+			VariableNode(std::string const & value) { this->_id = value; }
+
+			/*!	
+			\brief   Type of the Variable
+			\return  int
+			\sa		 print
+			*/
+			int getType();
+
+			/*!
+			\brief   Print the Variable
+			\return  void
+			\sa		 evaluate()
+			*/
+			void print();
+
+			/*!	
+			\brief   Evaluate the Variable as NUMBER
+			\return  double
+			\sa		 print
+			*/
+			double evaluateNumber();
+
+			/*!	
+			\brief   Evaluate the Variable as BOOL
+			\return  bool
+			\sa		 print
+			*/
+			bool evaluateBool();
+
+			/*!	
+			\brief   Evaluate the Variable as CHAIN
+			\return  bool
+			\sa		 print
+			*/
+			std::string evaluateString();
+	};
 
 	/*!	
-		\brief   Evaluate the expression as BOOL
-		\warning Virtual function: could be redefined in the heir classes
-		\return  bool
-		\sa		 print
+	\class ConstantNode
+	\brief Definition of atributes and methods of ConstantNode class
+	\note  ConstantNode Class publicly inherits from ExpNode class
 	*/
-    virtual bool evaluateBool()
-	{
-		return false;
-	}
+	class ConstantNode : public ExpNode {
+		private:
+			std::string _id; //!< Name of the ConstantNode
 
-	/*!	
-		\brief   Evaluate the expression as BOOL
-		\warning Virtual function: could be redefined in the heir classes
-		\return  bool
-		\sa		 print
-	*/
-    virtual std::string evaluateString()
-	{
-		return "";
-	}
-};
+		public:
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/*!	
-  \class VariableNode
-  \brief Definition of atributes and methods of VariableNode class
-  \note  VariableNode Class publicly inherits from ExpNode class
-*/
-class VariableNode : public ExpNode 
-{
-	private:
-	  std::string _id; //!< Name of the VariableNode
-
-	public:
-
-	/*!		
-		\brief Constructor of VariableNode
-		\param value: double
-		\post  A new NumericVariableNode is created with the name of the parameter
-		\note  Inline function
-	*/
-	  VariableNode(std::string const & value)
-		{
-			this->_id = value; 
-		}
-
-	/*!	
-		\brief   Type of the Variable
-		\return  int
-		\sa		 print
-	*/
-	 int getType();
-
-	/*!
-		\brief   Print the Variable
-		\return  void
-		\sa		 evaluate()
-	*/
-	  void print();
-
-	/*!	
-		\brief   Evaluate the Variable as NUMBER
-		\return  double
-		\sa		 print
-	*/
-	  double evaluateNumber();
-
-	/*!	
-		\brief   Evaluate the Variable as BOOL
-		\return  bool
-		\sa		 print
-	*/
-	  bool evaluateBool();
-
-	/*!	
-		\brief   Evaluate the Variable as CHAIN
-		\return  bool
-		\sa		 print
-	*/
-	  std::string evaluateString();
-
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/*!	
-  \class ConstantNode
-  \brief Definition of atributes and methods of ConstantNode class
-  \note  ConstantNode Class publicly inherits from ExpNode class
-*/
-class ConstantNode : public ExpNode 
-{
-	private:
-	  std::string _id; //!< Name of the ConstantNode
-
-	public:
-
-	/*!		
+		/*!		
 		\brief Constructor of ConstantNode
 		\param value: double
 		\post  A new ConstantNode is created with the name of the parameter
-	*/
-	  ConstantNode(std::string value)
-		{
-			this->_id = value; 
-		}
+		*/
+		  ConstantNode(std::string value) { this->_id = value; }
 
-	/*!	
+		/*!	
 		\brief   Type of the Constant
 		\return  int
 		\sa		 print
-	*/
-	 int getType();
+		*/
+		int getType();
 
-	/*!
+		/*!
 		\brief   Print the Constant
 		\return  void
 		\sa		 evaluate()
-	*/
-	  void print();
+		*/
+		void print();
 
-	/*!	
+		/*!	
 		\brief   Evaluate the Constant as NUMBER
 		\return  double
 		\sa		 print
-	*/
-	  double evaluateNumber();
+		*/
+		double evaluateNumber();
 
-	/*!	
+		/*!	
 		\brief   Evaluate the Constant as BOOL
 		\return  bool
 		\sa		 print
-	*/
-	  bool evaluateBool();
+		*/
+		bool evaluateBool();
 
 
-	/*!	
+		/*!	
 		\brief   Evaluate the Variable as CHAIN
 		\return  bool
 		\sa		 print
-	*/
-	  std::string evaluateString();
-
-};
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/*!	
-  \class NumberNode
-  \brief Definition of atributes and methods of NumberNode class
-  \note  NumberNode Class publicly inherits from ExpNode class
-*/
-class NumberNode : public ExpNode 
-{
- private: 	
-   double _number; //!< \brief number of the NumberNode
- 
- public:
-
-/*!		
-	\brief Constructor of NumberNode
-	\param value: double
-	\post  A new NumberNode is created with the value of the parameter
-	\note  Inline function
-*/
-  NumberNode(double value)
-	{
-	    this->_number = value;
-	}
+		*/
+		std::string evaluateString();
+	};
 
 	/*!	
-	\brief   Get the type of the expression: NUMBER
-	\return  int
-	\sa		 print
+	\class NumberNode
+	\brief Definition of atributes and methods of NumberNode class
+	\note  NumberNode Class publicly inherits from ExpNode class
 	*/
-	int getType();
+	class NumberNode : public ExpNode {
+	private: 	
+		double _number; //!< \brief number of the NumberNode
+	 
+	public:
 
-	/*!
+		/*!		
+		\brief Constructor of NumberNode
+		\param value: double
+		\post  A new NumberNode is created with the value of the parameter
+		\note  Inline function
+		*/
+		NumberNode(double value) { this->_number = value; }
+
+		/*!	
+		\brief   Get the type of the expression: NUMBER
+		\return  int
+		\sa		 print
+		*/
+		int getType();
+
+		/*!
 		\brief   Print the expression
 		\return  void
 		\sa		 evaluate()
-	*/
-	void print();
+		*/
+		void print();
 
-	/*!	
+		/*!	
 		\brief   Evaluate the expression
 		\return  double
 		\sa		 print
-	*/
-	double evaluateNumber();
-};
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/*!	
-  \class StringNode
-  \brief Definition of atributes and methods of StringNode class
-  \note  StringNode Class publicly inherits from ExpNode class
-*/
-class StringNode : public ExpNode 
-{
- private: 	
-   std::string _chain; //!< \brief string of the StringNode
- 
- public:
-
-/*!		
-	\brief Constructor of StringNode
-	\param value: string
-	\post  A new StringNode is created with the value of the parameter
-	\note  Inline function
-*/
-  StringNode(std::string value)
-	{
-	    this->_chain = value;
-	}
+		*/
+		double evaluateNumber();
+	};
 
 	/*!	
-	\brief   Get the type of the expression: CHAIN
-	\return  int
-	\sa		 print
+	\class StringNode
+	\brief Definition of atributes and methods of StringNode class
+	\note  StringNode Class publicly inherits from ExpNode class
 	*/
-	int getType();
+	class StringNode : public ExpNode {
+		private: 	
+			std::string _chain; //!< \brief string of the StringNode
+		 
+		public:
 
-	/*!
-		\brief   Print the expression
-		\return  void
-		\sa		 evaluate()
-	*/
-	void print();
+			/*!		
+			\brief Constructor of StringNode
+			\param value: string
+			\post  A new StringNode is created with the value of the parameter
+			\note  Inline function
+			*/
+			StringNode(std::string value) { this->_chain = value; }
+
+			/*!	
+			\brief   Get the type of the expression: CHAIN
+			\return  int
+			\sa		 print
+			*/
+			int getType();
+
+			/*!
+			\brief   Print the expression
+			\return  void
+			\sa		 evaluate()
+			*/
+			void print();
+
+			/*!	
+			\brief   Evaluate the expression
+			\return  string
+			\sa		 print
+			*/
+			std::string evaluateString();
+	};
 
 	/*!	
-		\brief   Evaluate the expression
-		\return  string
-		\sa		 print
+	\class   UnaryOperatorNode
+	\brief   Definition of atributes and methods of UnaryOperatorNode class
+	\note    UnaryOperatorNode Class publicly inherits from ExpNode class
+	\warning Abstract class, because it does not redefine the print method of ExpNode
 	*/
-	std::string evaluateString();
+	class UnaryOperatorNode : public ExpNode {
+		protected:
+			ExpNode *_exp;  //!< Child expression
 
-};
+		public:
 
+			/*!		
+			\brief Constructor of UnaryOperatorNode links the node to it child,
+				   and stores the character representation of the operator.
+			\param expression: pointer to ExpNode
+			\post  A new OperatorNode is created with the parameters
+			\note  Inline function
+			*/
+			UnaryOperatorNode(ExpNode *expression) { this->_exp = expression; }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/*!	
-  \class   UnaryOperatorNode
-  \brief   Definition of atributes and methods of UnaryOperatorNode class
-  \note    UnaryOperatorNode Class publicly inherits from ExpNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
-*/
-class UnaryOperatorNode : public ExpNode 
-{
- protected:
-  ExpNode *_exp;  //!< Child expression
-
- public:
-
-/*!		
-	\brief Constructor of UnaryOperatorNode links the node to it child,
-           and stores the character representation of the operator.
-	\param expression: pointer to ExpNode
-	\post  A new OperatorNode is created with the parameters
-	\note  Inline function
-*/
-  UnaryOperatorNode(ExpNode *expression)
-	{
-		this->_exp = expression;
-	}
+			/*!	
+			\brief   Get the type of the child expression
+			\return  int
+			\sa		 print
+			*/
+			inline int getType() { return this->_exp->getType(); }
+	};
 
 	/*!	
-	\brief   Get the type of the child expression
-	\return  int
-	\sa		 print
+	  \class   NumericUnaryOperatorNode
+	  \brief   Definition of atributes and methods of UnaryOperatorNode class
+	  \note    UnaryOperatorNode Class publicly inherits from UnaryOperatorNode class
+	  \warning Abstract class, because it does not redefine the print method of ExpNode
 	*/
-	inline int getType()
-	{
-		return this->_exp->getType();
-	}
-};
+	class NumericUnaryOperatorNode : public UnaryOperatorNode {
+		public:
 
+			/*!		
+			\brief Constructor of NumericUnaryOperatorNode uses UnaryOperatorNode's constructor as member initializer
+			\param expression: pointer to ExpNode
+			\post  A new NumericUnaryOperatorNode is created with the parameters
+			\note  Inline function
+			*/
+			NumericUnaryOperatorNode(ExpNode *expression): UnaryOperatorNode(expression) {} // Empty
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
+			/*!	
+			\brief   Get the type of the child expression
+			\return  int
+			\sa		 print
+			*/
+			int getType();
 
-/*!	
-  \class   NumericUnaryOperatorNode
-  \brief   Definition of atributes and methods of UnaryOperatorNode class
-  \note    UnaryOperatorNode Class publicly inherits from UnaryOperatorNode class
-  \warning Abstract class, because it does not redefine the print method of ExpNode
-*/
-class NumericUnaryOperatorNode : public UnaryOperatorNode 
-{
- public:
-
-/*!		
-	\brief Constructor of NumericUnaryOperatorNode uses UnaryOperatorNode's constructor as member initializer
-	\param expression: pointer to ExpNode
-	\post  A new NumericUnaryOperatorNode is created with the parameters
-	\note  Inline function
-*/
-  NumericUnaryOperatorNode(ExpNode *expression): UnaryOperatorNode(expression)
-	{
-		// Empty
-	}
-
-	/*!	
-	\brief   Get the type of the child expression
-	\return  int
-	\sa		 print
-	*/
-	int getType();
-
-};
+	};
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -531,10 +461,10 @@ class OperatorNode : public ExpNode
 		\param R: pointer to ExpNode
 		\post  A new OperatorNode is created with the parameters
 	*/
-    OperatorNode(ExpNode *L, ExpNode *R)
+	OperatorNode(ExpNode *L, ExpNode *R)
 	{
-	    this->_left  = L;
-    	this->_right = R;
+		this->_left  = L;
+		this->_right = R;
 	}
 
 };
@@ -560,7 +490,7 @@ class NumericOperatorNode : public OperatorNode
 		\param R: pointer to ExpNode
 		\post  A new NumericOperatorNode is created with the parameters
 	*/
-    NumericOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
+	NumericOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
 	{
 		//	Empty
 	}
@@ -592,7 +522,7 @@ class StringOperatorNode : public OperatorNode
 		\param R: pointer to ExpNode
 		\post  A new StringOperatorNode is created with the parameters
 	*/
-    StringOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
+	StringOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
 	{
 		//	Empty
 	}
@@ -625,7 +555,7 @@ public:
 	\param R: pointer to ExpNode
 	\post  A new RelationalOperatorNode is created with the parameters
 */
-    RelationalOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
+	RelationalOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
 	{
 		//	Empty
 	}
@@ -659,7 +589,7 @@ class LogicalOperatorNode : public OperatorNode
 		\param R: pointer to ExpNode
 		\post  A new NumericOperatorNode is created with the parameters
 	*/
-    LogicalOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
+	LogicalOperatorNode(ExpNode *L, ExpNode *R): OperatorNode(L,R) 
 	{
 		//	Empty
 	}
@@ -1624,7 +1554,7 @@ class AssignmentStmt : public Statement
 	\return  void
 	\sa		 print
 */
-    void evaluate();
+	void evaluate();
 
 };
 
@@ -2138,7 +2068,7 @@ class CasesStmt : public Statement
 	\param statement: Statement of the body of the loop 
 	\post  A new CasesStmt is created with the parameters
 */
-  	CasesStmt(ExpNode *exp, std::list<CaseNode*>* cases, CaseNode* c_default = NULL)
+	CasesStmt(ExpNode *exp, std::list<CaseNode*>* cases, CaseNode* c_default = NULL)
 	{
 		this->_exp = exp;
 		this->_cases = cases;

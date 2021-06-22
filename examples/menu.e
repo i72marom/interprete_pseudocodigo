@@ -1,8 +1,16 @@
-<<<<<<< Updated upstream
+<<
+	Programa EJEMPLO de ipe.exe
+	En este ejemplo nuestro programa puede hacer dos acciones distintas mostrando todas las capacidades de nuestro lenguaje:
+	Calcular fibonacci
+>>
+
 #borrar;
 #lugar(0,0);
+
 Escribir_cadena('Ejemplos codificados para probar el interprete: \n');
 Escribir_cadena('\t1. Sucesión de fibonacci.\n');
+Escribir_cadena('\t2. Bucle invertido.\n');
+Escribir_cadena('\t3. Concatenación de cadenas.\n');
 Escribir_cadena('\t0. Salir\n\n');
 
 repetir
@@ -38,21 +46,21 @@ repetir
 		
 		fin_si;
 	fin_si;
+
+	si (a = 2) entonces
+		Escribir_cadena('\t');
+
+		para i desde 10 hasta 1 paso -1 hacer
+			Escribir(i);
+			Escribir_cadena(' ');
+		fin_para;
+
+		Escribir_cadena('\n\n');
+	fin_si;
+
+	si (a = 3) entonces
+		c := 'Hola' || ' Mundo';
+		Escribir_cadena('\t' || c || '\n');
+	fin_si;
+
 hasta (a = 0);
-=======
-<<
-Programa EJEMPLO de ipe.exe
-En este ejemplo nuestro programa puede hacer dos acciones distintas mostrando todas las capacidades de nuestro lenguaje:
-Calcular fibonacci
-
-
-
->>
-
-#lugar(10,10);
-
-
-modulo := n1 #mod n2;
-
-escribir(modulo);
->>>>>>> Stashed changes
