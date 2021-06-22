@@ -4,10 +4,10 @@ Escribir_cadena('Calculadora de la sucesion de fibonacci.\n');
 Escribir_cadena('Se calcula hasta: ');
 Leer(n);
 
-si n = 0
+si (n = 0)
 	entonces Escribir(0);
 sino
-si n = 1
+si (n = 1)
 	entonces Escribir(1);
 sino
 	a := 1;
