@@ -6,7 +6,7 @@
 #include <iostream>
 
 /*********************/
-/* NEW in example 4 */
+
 /* atof */
 #include <stdlib.h>
 #include <string>
@@ -27,13 +27,13 @@
 #include "interpreter.tab.h"
 
 /********************/
-/* NEW in example 3 */
+
 #include "../error/error.hpp"
 /********************/
 
 
 /*********************************************/
-/* NEW in example 7 */
+
 /* Table of symbols */
 #include "../table/table.hpp"
 
@@ -58,7 +58,18 @@ LETTER [a-zA-ZáàéèíìóòúùÁÀÉÈÍÌÓÒÚÙ]
 /*NUMBERS*/
 NUMBER_1 {DIGIT}+\.?([Ee][\+\-]?{DIGIT}+)?
 NUMBER_2 {DIGIT}*\.{DIGIT}+([Ee][\+\-]?{DIGIT}+)?
-NUMBER_ERROR_1  {DIGIT}[a-df-zA-DF-Z_]+({DIGIT}|[a-df-zA-DF-Z_])*
+
+
+
+
+
+
+NUMBER_ERROR_1  [0-9]+[a-df-zA-DF-Z_]+([0-9]|[a-df-zA-DF-Z_])
+
+
+
+
+
 NUMBER_ERROR_2 {DIGIT}+\.?[Ee][Ee]+[\+\-]?
 NUMBER_ERROR_3 {DIGIT}*\.{DIGIT}+[Ee][Ee]+[\+\-]?
 NUMBER_ERROR_4 {DIGIT}+\.?[Ee][\+\-]?
@@ -123,7 +134,7 @@ ID_ERROR_2  {LETTER}({LETTER}|{DIGIT})*(__+({LETTER}|{DIGIT})*)+
 
 
 {IDENTIFIER}   		 {
-						 /* NEW in example 7 */
+						 
 						 std::string identifier(yytext);
 						for(int x=0;x<identifier.size();x++){
 							identifier[x]= tolower (identifier[x]);
@@ -171,7 +182,7 @@ ID_ERROR_2  {LETTER}({LETTER}|{DIGIT})*(__+({LETTER}|{DIGIT})*)+
                      }
 
 
-
+ 
 
 
 "-"		{ return MINUS;  } 			

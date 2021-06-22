@@ -61,13 +61,13 @@ extern int yydebug;
     WHILE = 267,
     DO_IT = 268,
     ENDWHILE = 269,
-    DO = 270,
+    REPEAT = 270,
     UNTIL = 271,
     FOR = 272,
     FROM = 273,
     STEP = 274,
     ENDFOR = 275,
-    CASE = 276,
+    CASES = 276,
     VALUE = 277,
     DEFAULT = 278,
     END_CASE = 279,
@@ -127,10 +127,12 @@ union YYSTYPE
   lp::ExpNode *expNode;  			 
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
   std::list<lp::Statement *> *stmts; 
-  lp::Statement *st;				 
+  lp::Statement *st;		
+  std::list<lp::CaseNode*> *cases_list;		
+  lp::CaseNode * caso; 
   lp::AST *prog;					 
 
-#line 134 "interpreter.tab.h" /* yacc.c:1921  */
+#line 136 "interpreter.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;

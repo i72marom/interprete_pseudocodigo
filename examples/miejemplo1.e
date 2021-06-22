@@ -1,4 +1,17 @@
-@Ejemplo para probar si funcionan la sentencia if
+#Ejemplo para probar si funcionan la sentencia if
+
+
+
+
+
+
+
+
+
+
+
+
+#
 
 
 escribir_cadena('Escribe un numero:\n');

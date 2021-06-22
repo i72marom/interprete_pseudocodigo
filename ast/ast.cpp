@@ -527,15 +527,15 @@ double lp::DivisionNode::evaluateNumber()
 	// Ckeck the types of the expressions
 	if (this->getType() == NUMBER)
 	{
-		double leftNumber, rightNumber;
+		double l_value, r_value;
 
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 	
 		// The divisor is not zero
-    	if(std::abs(rightNumber) > ERROR_BOUND)
+    	if(std::abs(r_value) > ERROR_BOUND)
 		{
-				result = leftNumber / rightNumber;
+				result = l_value / r_value;
 		}
 		else
 		{
@@ -568,15 +568,15 @@ double lp::DivisionEnteraNode::evaluateNumber()
 	// Ckeck the types of the expressions
 	if (this->getType() == NUMBER)
 	{
-		double leftNumber, rightNumber;
+		double l_value, r_value;
 
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 	
 		// The divisor is not zero
-    	if(std::abs(rightNumber) > ERROR_BOUND)
+    	if(std::abs(r_value) > ERROR_BOUND)
 		{
-				result = leftNumber / rightNumber;
+				result = l_value / r_value;
 		}
 		else
 		{
@@ -611,13 +611,13 @@ double lp::ModuloNode::evaluateNumber()
 	// Ckeck the types of the expressions
 	if (this->getType() == NUMBER)
 	{
-		double leftNumber, rightNumber;
+		double l_value, r_value;
 
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 	
-    	if(std::abs(rightNumber) > ERROR_BOUND)
-				result = (int) leftNumber % (int) rightNumber;
+    	if(std::abs(r_value) > ERROR_BOUND)
+				result = (int) l_value % (int) r_value;
 		else
 			warning("Error de ejecución", "División entre cero");
 	}
@@ -795,24 +795,24 @@ bool lp::GreaterThanNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType() == NUMBER && this->_right->getType()== NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
-		result = (leftNumber > rightNumber);
+		result = (l_value > r_value);
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL and this->_left->getType() == STRING && this->_right->getType()== STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_value, r_value;
+		l_value = this->_left->evaluateString();
+		r_value = this->_right->evaluateString();
 
-		result = (leftChain > rightChain);	
+		result = (l_value > r_value);	
 	}
 	else{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Greater than");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Mayor que");
 	}
 
 	return result;
@@ -834,24 +834,24 @@ bool lp::GreaterOrEqualNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType()==NUMBER && this->_right->getType()==NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
-		result = (leftNumber >= rightNumber);
+		result = (l_value >= r_value);
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL && this->_left->getType()==STRING && this->_right->getType()==STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_value, r_value;
+		l_value = this->_left->evaluateString();
+		r_value = this->_right->evaluateString();
 
-		result = (leftChain >= rightChain);	
+		result = (l_value >= r_value);	
 	}
 	else{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Greater than");
+		warning("Error de ejecución: tipos incompatibles para ", "Operador Mayor o igual que");
 	}
 
 	return result;
@@ -874,24 +874,24 @@ bool lp::LessThanNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType()==NUMBER && this->_right->getType()==NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
-		result = (leftNumber < rightNumber);
+		result = (l_value < r_value);
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL && this->_left->getType()==STRING && this->_right->getType()==STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_value, r_value;
+		l_value = this->_left->evaluateString();
+		r_value = this->_right->evaluateString();
 
-		result = (leftChain < rightChain);	
+		result = (l_value < r_value);	
 	}
 	else{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Greater than");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Menor que");
 	}
 
 	return result;
@@ -913,24 +913,24 @@ bool lp::LessOrEqualNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType()==NUMBER && this->_right->getType()==NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
-		result = (leftNumber <= rightNumber);
+		result = (l_value <= r_value);
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL && this->_left->getType()==STRING && this->_right->getType()==STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_value, r_value;
+		l_value = this->_left->evaluateString();
+		r_value = this->_right->evaluateString();
 
-		result = (leftChain <= rightChain);	
+		result = (l_value <= r_value);	
 	}
 	else{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Greater than");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Menor o igual que");
 	}
 
 	return result;
@@ -953,26 +953,25 @@ bool lp::EqualNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType()==NUMBER && this->_right->getType()==NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
 		// ERROR_BOUND to control the precision of real numbers
-		result = std::abs( (leftNumber - rightNumber)) < ERROR_BOUND ;
+		result = std::abs( (l_value - r_value)) < ERROR_BOUND ;
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL && this->_left->getType()==STRING && this->_right->getType()==STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_string = this->_left->evaluateString();
+		std::string r_string = this->_right->evaluateString();
 
-		result = (leftChain == rightChain);	
+		result = (l_string == r_string);	
 	}
 	else
 	{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Equal");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Igual");
 	}
 
 	return result;
@@ -995,26 +994,26 @@ bool lp::NotEqualNode::evaluateBool()
 {
 	bool result = false;
 
-	if (this->getType() == BOOL and this->_left->getType()==NUMBER and this->_right->getType()==NUMBER )
+	if (this->getType() == BOOL && this->_left->getType()==NUMBER && this->_right->getType()==NUMBER )
 	{
-		double leftNumber, rightNumber;
-		leftNumber = this->_left->evaluateNumber();
-		rightNumber = this->_right->evaluateNumber();
+		double l_value, r_value;
+		l_value = this->_left->evaluateNumber();
+		r_value = this->_right->evaluateNumber();
 
 		// ERROR_BOUND to control the precision of real numbers
-		result = std::abs( (leftNumber - rightNumber) ) >= ERROR_BOUND ;
+		result = std::abs( (l_value - r_value) ) >= ERROR_BOUND ;
 	}
-	else if(this->getType() == BOOL and this->_left->getType()==STRING and this->_right->getType()==STRING )
+	else if(this->getType() == BOOL && this->_left->getType()==STRING && this->_right->getType()==STRING )
 	{
-		std::string leftChain, rightChain;
-		leftChain = this->_left->evaluateString();
-		rightChain = this->_right->evaluateString();
+		std::string l_value, r_value;
+		l_value = this->_left->evaluateString();
+		r_value = this->_right->evaluateString();
 
-		result = (leftChain != rightChain);	
+		result = (l_value != r_value);	
 	}
 	else
 	{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Not equal");
+		warning("Error de ejecución: tipos incompatibles para ", "operador No igual (distinto)");
 	}
 
 	return result;
@@ -1029,7 +1028,7 @@ void lp::AndNode::print()
 {
   std::cout << "AndNode: " << std::endl;
   this->_left->print();
-  std::cout << " && ";
+  std::cout << " and ";
   this->_right->print();
 }
 
@@ -1039,16 +1038,16 @@ bool lp::AndNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		bool leftBool, rightBool;
+		bool l_value, r_value;
 
-		leftBool = this->_left->evaluateBool();
-		rightBool = this->_right->evaluateBool();
+		l_value = this->_left->evaluateBool();
+		r_value = this->_right->evaluateBool();
 
-		result = leftBool and rightBool;
+		result = l_value && r_value;
 	}
 	else
 	{
-		warning("Error de ejecución: tipos incompatibles para ", "operator And");
+		warning("Error de ejecución: tipos incompatibles para ", "operador And");
 	}
 
 	return result;
@@ -1073,16 +1072,16 @@ bool lp::OrNode::evaluateBool()
 
 	if (this->getType() == BOOL)
 	{
-		bool leftBool, rightBool;
+		bool l_value, r_value;
 
-		leftBool = this->_left->evaluateBool();
-		rightBool = this->_right->evaluateBool();
+		l_value = this->_left->evaluateBool();
+		r_value = this->_right->evaluateBool();
 
-		result = leftBool or rightBool;
+		result = l_value or r_value;
 	}
 	else
 	{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Or");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Or");
 	}
 
 	return result;
@@ -1110,7 +1109,7 @@ bool lp::NotNode::evaluateBool()
 	}
 	else
 	{
-		warning("Error de ejecución: tipos incompatibles para ", "operator Not");
+		warning("Error de ejecución: tipos incompatibles para ", "operador Not");
 	}
 
 	return result;
@@ -1139,7 +1138,7 @@ std::string lp::ConcatenacionNode::evaluateString()
 	}
 	else
 	{
-		warning("Error de ejecución: Las expresiones no son numéricas para ", "Minus");
+		warning("Error de ejecución: Tipos incompatibles para", "ConcatenacionNode");
 	}
 
   return result;
@@ -1256,7 +1255,7 @@ void lp::AssignmentStmt::evaluate()
 			}
 			break;
 			default:
-				warning("Error de ejecución: tipos incompatibles para ", "Assigment");
+				warning("Error de ejecución: tipos incompatibles para ", "Asignación");
 		}
 
 	}
@@ -1370,7 +1369,7 @@ void lp::AssignmentStmt::evaluate()
 			}
 			break;
 			default:
-				warning("Error de ejecución: tipos incompatibles para ", "Assigment");
+				warning("Error de ejecución: tipos incompatibles para ", "Asignación");
 		}
 	}
 }
@@ -1381,10 +1380,10 @@ void lp::AssignmentStmt::evaluate()
 
 void lp::PrintStmt::print() 
 {
-  std::cout << "EscribirStmt: "  << std::endl;
-  std::cout << " escribir ";
-  this->_exp->print();
-  std::cout << std::endl;
+  	std::cout << "EscribirStmt: "  << std::endl;
+  	std::cout << " escribir ";
+  	this->_exp->print();
+  	std::cout << std::endl;
 }
 
 
@@ -1401,9 +1400,9 @@ void lp::PrintStmt::evaluate()
 				break;
 		case BOOL:
 			if (this->_exp->evaluateBool())
-				std::cout << "true" ;
+				std::cout << "verdadero" ;
 			else
-				std::cout << "false" ;
+				std::cout << "falso" ;
 		
 			break;
 
@@ -1417,10 +1416,10 @@ void lp::PrintStmt::evaluate()
 
 void lp::PrintChainStmt::print() 
 {
-  std::cout << "EscribirStmt: "  << std::endl;
-  std::cout << " escribir ";
-  this->_exp->print();
-  std::cout << std::endl;
+  	std::cout << "EscribirStmt: "  << std::endl;
+  	std::cout << " escribir ";
+  	this->_exp->print();
+  	std::cout << std::endl;
 }
 
 
@@ -1444,14 +1443,14 @@ void lp::PrintChainStmt::evaluate()
 
 void lp::BorrarPantallaStmt::print() 
 {
-  std::cout << "BorrarPantallaStmt";
+  	std::cout << "BorrarPantallaStmt";
 }
 
 
 
 void lp::BorrarPantallaStmt::evaluate() 
 {
-  std::cout << CLEAR_SCREEN;
+  	std::cout << CLEAR_SCREEN;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1459,12 +1458,13 @@ void lp::BorrarPantallaStmt::evaluate()
 
 void lp::EntradaStmt::print() 
 {
-  std::cout<<"EntradaStmt";
+
+  	std::cout<<"EntradaStmt";
 }
 void lp::EntradaStmt::evaluate() 
 {
-  std::cin.ignore();
-  std::cin.ignore();
+  	std::cin.ignore();
+  	std::cin.ignore();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -1482,7 +1482,7 @@ void lp::LugarStmt::evaluate()
 	{
 		PLACE((int)this->_fila->evaluateNumber(),(int)this->_columna->evaluateNumber());
 	}
-	else
+	else //If the type is not compatible
 	{
 		warning("Error de ejecución: las expresiones no son numéricas en", "#lugar");
 	}
@@ -1505,12 +1505,6 @@ void lp::ReadStmt::evaluate()
 	double value;
 	std::cin >> value;
 	
-	if(!std::cin){
-	  warning("Error de ejecución: Valor no numerico introducido en:", "leer");
-	  std::cin.clear(); // reset failbit
-  	  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
-	  return;
-	}
 	/* Get the identifier in the table of symbols as Variable */
 	lp::Variable *var = (lp::Variable *) table.getSymbol(this->_id);
 
@@ -1666,9 +1660,9 @@ void lp::WhileStmt::evaluate()
 void lp::ForStmt::evaluatePaso(){
    	lp::VariableNode *v = new lp::VariableNode(this->_varId);
 
-	if(_step->getType()==NUMBER){
-
-	   	PlusNode* sum=new lp::PlusNode(v,_step);
+	if(_step->getType()==NUMBER)
+	{
+		PlusNode* sum=new lp::PlusNode(v,_step);
 	   	lp::AssignmentStmt* asgm= new lp::AssignmentStmt(_varId,sum);
     	asgm->evaluate();
 	  }
@@ -1698,41 +1692,124 @@ void lp::ForStmt::print()
 
 void lp::ForStmt::evaluate() 
 {
-    if(this->_from->getType()==NUMBER){
-   	 lp::AssignmentStmt* asgm= new lp::AssignmentStmt(_varId,_from);
+    if(this->_from->getType()==NUMBER)
+	{
+   	 	lp::AssignmentStmt* asgm= new lp::AssignmentStmt(_varId,_from);
     	asgm->evaluate();
     }
-    else{
-	warning("Error de ejecución: Los bucles para solo evaluan variables numericas en:", "para"); 
-	return;
+    else
+	{
+		warning("Error de ejecución: Los bucles para solo evaluan variables numericas en:", "para"); 
+		return;
     }
 
    lp::VariableNode *var = new lp::VariableNode(this->_varId);
-   if(this->_to->getType()==NUMBER&&this->_step->getType()==NUMBER){
+
+   if(this->_to->getType()==NUMBER && this->_step->getType()==NUMBER)
+   {
 	   
-		if(!infinite()){
-
-
+		if(!infinite())
+		{
   	 		for(;var->evaluateNumber()!=this->_to->evaluateNumber();evaluatePaso())
-			   {
 	  	  		this->_stmt->evaluate();
-   	 	 	}
- 	    this->_stmt->evaluate();
-	}
-	else {
+ 	    	this->_stmt->evaluate();
+		}
+		else 
+		{
      		warning("Error de ejecución :Bucle infinito en:", "para");
      		return;
-	}
+		}
 	}
     
-   else{		
-     warning("Error de ejecución: Las expresiones comparadas son de distinto tipo en:", "para");
-     return;
-        }
+   else
+   {		
+     	warning("Error de ejecución: Las expresiones comparadas son de distinto tipo en:", "para");
+     	return;
+    }
 
 
   
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+void lp::CasesStmt::print()
+{
+	std::cout<<"CasesStmt"<<std::endl;
+	std::list<CaseNode*>::iterator iterador;
+	iterador = this->_cases->begin();
+	for(;iterador != this->_cases->end();iterador++)
+		(*iterador)->print();
+}
+void lp::CasesStmt::evaluate()
+{
+	std::list<CaseNode*>::iterator iterador;
+	bool done = false;
+	int type = this->_exp->getType();
+	iterador = this->_cases->begin();
+	for(;iterador != this->_cases->end() && !done ;iterador++)
+	{
+		if((*iterador)->getType() == type)
+		{
+			if(type == NUMBER)
+			{
+
+				if((*iterador)->getExpression()->evaluateNumber() == this->_exp->evaluateNumber())
+				{
+					(*iterador)->evaluate();
+					done = true;
+				}
+			}
+			else if(type == STRING)
+			{
+				if((*iterador)->getExpression()->evaluateString() == this->_exp->evaluateString())
+				{
+					(*iterador)->evaluate();
+					done = true;
+				}				
+			}
+			else if(type == BOOL)
+			{
+				if((*iterador)->getExpression()->evaluateBool() == this->_exp->evaluateBool())
+				{
+					(*iterador)->evaluate();
+					done = true;
+				}				
+			}
+			else
+				warning("Error de ejecución: tipos incompatibles para ", "valor");
+		}
+		else
+			warning("Error de ejecución : tipos incompatibles para", "valor");
+	}
+	if(this->_cdefault != NULL && !done)
+		this->_cdefault->evaluate();
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void lp::CaseNode::print()
+{
+  std::cout << "CaseNode: "  << std::endl;
+  this->_stmts->print();
+}
+
+lp::ExpNode* lp::CaseNode::getExpression()
+{
+	return this->_exp;
+}
+int lp::CaseNode::getType()
+{
+	return this->_exp->getType();
+}
+void lp::CaseNode::evaluate()
+{
+	this->_stmts->evaluate();
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////

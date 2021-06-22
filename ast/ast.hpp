@@ -2055,7 +2055,65 @@ class WhileStmt : public Statement
   void evaluate();
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+/*!	
+  \class CaseNode
+  \brief Definition of atributes and methods of CaseNode class
+  \note  CaseNode Class publicly inherits from ExpNode class
+*/
+class CaseNode
+{
+	private:
+	  lp::ExpNode* _exp;
+	  Statement *_stmts;
+
+	public:
+
+	/*!		
+		\brief Constructor of CaseNode
+		\param value: double
+		\post  A new CaseNode is created with the name of the parameter
+		\note  Inline function
+	*/
+	  CaseNode(lp::ExpNode* exp, Statement *stmts)
+		{
+			this->_exp = exp;
+			this->_stmts = stmts;
+		}
+
+	/*!	
+		\brief   Type of the Variable
+		\return  int
+		\sa		 print
+	*/
+	 int getType();
+
+	/*!
+		\brief   Print the Variable
+		\return  void
+		\sa		 evaluate()
+	*/
+	  void print();
+	
+	/*!
+		\brief   Return the Expression
+		\return  ExpNode* _exp
+		\sa		 print
+	*/
+	  ExpNode* getExpression();
+
+	/*!	
+		\brief   Evaluate the CaseNode
+		\return  void
+		\sa		 print
+	*/
+	void evaluate();
+
+
+
+};
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2070,7 +2128,8 @@ class CasesStmt : public Statement
 {
  private:
   ExpNode *_exp; //!< Condicion of the while statement
-  Statement *_stmt; //!< Statement of the body of the while loop
+  std::list<CaseNode*>* _cases; //!< Statement of the body of the while loop
+  CaseNode* _cdefault;
 
   public:
 /*!		
@@ -2079,10 +2138,11 @@ class CasesStmt : public Statement
 	\param statement: Statement of the body of the loop 
 	\post  A new CasesStmt is created with the parameters
 */
-  CasesStmt(ExpNode *exp, Statement *statement)
+  	CasesStmt(ExpNode *exp, std::list<CaseNode*>* cases, CaseNode* c_default = NULL)
 	{
 		this->_exp = exp;
-		this->_stmt = statement;
+		this->_cases = cases;
+		this->_cdefault = c_default;
 	}
 
 
@@ -2100,6 +2160,8 @@ class CasesStmt : public Statement
 */
   void evaluate();
 };
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////

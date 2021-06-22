@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #borrar;
 #lugar(0,0);
 Escribir_cadena('Ejemplos codificados para probar el interprete: \n');
@@ -38,3 +39,20 @@ repetir
 		fin_si;
 	fin_si;
 hasta (a = 0);
+=======
+<<
+Programa EJEMPLO de ipe.exe
+En este ejemplo nuestro programa puede hacer dos acciones distintas mostrando todas las capacidades de nuestro lenguaje:
+Calcular fibonacci
+
+
+
+>>
+
+#lugar(10,10);
+
+
+modulo := n1 #mod n2;
+
+escribir(modulo);
+>>>>>>> Stashed changes

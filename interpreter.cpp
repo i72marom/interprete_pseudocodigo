@@ -35,7 +35,7 @@ int lineNumber = 1; //!< Line counter
 
 /* NEW in example 15 */
 bool interactiveMode; //!< Control the interactive mode of execution of the interpreter
-
+int control = 0;
 
 // New in example 2
 extern FILE * yyin; //!< Standard input device for yylex() 
@@ -105,14 +105,16 @@ int main(int argc, char *argv[])
       otherwise
             the input device is the keyboard (stdin)
  */
- if (argc == 2) 
- {
-   std::string aux=argv[1];
+  if (argc == 2) 
+ { 
+
+    std::string aux=argv[1];
 
      yyin = fopen(argv[1],"r");
-	if(!yyin){
-	  warning("Error,fichero no existe:", argv[1]);
-	  return 0;
+	if(!yyin)
+  {
+	    warning("Error,fichero no existe:", argv[1]);
+	    return 0;
 	}
      if(aux.substr(aux.find_last_of(".") + 1)!="e"&&aux.substr(aux.find_last_of(".") + 1)!="E"){
 	  warning("Error,fichero con extension erronea:", argv[1]);
@@ -149,7 +151,7 @@ else
  if (interactiveMode == false)
  {
   /* NEW in example 15 */
-    root->print(); 
+    //root->print(); 
    root->evaluate();
  }
 

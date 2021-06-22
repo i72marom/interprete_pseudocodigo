@@ -88,7 +88,7 @@ int yylex();
 extern int lineNumber; //!< External line counter
 
 extern bool interactiveMode; //!< Control the interactive mode of execution of the interpreter
-
+extern int control;
 
 /***********************************************************/
 extern std::string progname; //!<  Program name
@@ -134,7 +134,9 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
   lp::ExpNode *expNode;  			 
   std::list<lp::ExpNode *>  *parameters;    // New in example 16; NOTE: #include<list> must be in interpreter.l, init.cpp, interpreter.cpp
   std::list<lp::Statement *> *stmts; 
-  lp::Statement *st;				 
+  lp::Statement *st;		
+  std::list<lp::CaseNode*> *cases_list;		
+  lp::CaseNode * caso; 
   lp::AST *prog;					 
 }
 
@@ -142,13 +144,15 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 // New in example 17: cond
 %type <expNode> exp cond 
 
+%type <caso> case default_stmt
+%type <cases_list> case_list
 
 %type <parameters> listOfExp  restOfListOfExp
 
 %type <stmts> stmtlist
 
 // New in example 17: if, while, block
-%type <st> stmt asgn print print_string read read_string if while do_while for block borrar lugar  modification_unary while_block do_while_block for_block esperar cases case
+%type <st> stmt asgn print print_string read read_string if while do_while for block borrar lugar  modification_unary while_block do_while_block for_block esperar cases
 
 %type <prog> program
 
@@ -162,7 +166,7 @@ extern lp::AST *root; //!< External root of the abstract syntax tree AST
 /*******************************************/
 
 // NEW in example 17: IF, ELSE, WHILE 
-%token PRINT PRINT_STRING READ READ_STRING IF THEN ELSE ENDIF WHILE DO_IT ENDWHILE DO UNTIL FOR FROM STEP ENDFOR CASE VALUE DEFAULT END_CASE BORRAR LUGAR ESPERAR
+%token PRINT PRINT_STRING READ READ_STRING IF THEN ELSE ENDIF WHILE DO_IT ENDWHILE REPEAT UNTIL FOR FROM STEP ENDFOR CASES VALUE DEFAULT END_CASE BORRAR LUGAR ESPERAR
 
 // NEW in example 17
 %token LETFCURLYBRACKET RIGHTCURLYBRACKET
@@ -230,15 +234,27 @@ stmtlist:  /* empty: epsilon rule */
 		  }  
 
         | stmtlist stmt 
-		  { 
-			// copy up the list and add the stmt to it
-			$$ = $1;
-			$$->push_back($2);
+		  {
+				// copy up the list and add the stmt to it
+				$$ = $1;
+				$$->push_back($2);
 
-			// Control the interative mode of execution of the interpreter
-			if (interactiveMode == true)
- 			   $2->evaluate();
-           }
+				// Control the interative mode of execution of the interpreter
+				if (interactiveMode == true && control == 0)
+				{
+					for(std::list<lp::Statement *>::iterator it = $$->begin(); 
+							it != $$->end(); 
+							it++)
+					{
+						(*it)->print(); 
+						(*it)->evaluate();
+						
+					}
+
+					// Delete the AST code, because it has already run in the interactive mode.
+					$$->clear();
+				}
+		  }
 
 
         | stmtlist error 
@@ -323,6 +339,10 @@ stmt: SEMICOLON  /* Empty statement: ";" */
 		// Default action
 		// $$ = $1;
 	 }
+	| cases
+	 {
+
+	 }
 ;
 
 
@@ -340,10 +360,13 @@ while_block: DO_IT stmtlist ENDWHILE
 		}
 ;
 
-do_while_block:DO stmtlist UNTIL
+do_while_block:REPEAT controlSymbol stmtlist UNTIL
 		{
 			// Create a new block of statements node
-			$$ = new lp::BlockStmt($2); 
+			$$ = new lp::BlockStmt($3);
+
+
+			control--; 
 		}
 ;
 
@@ -354,59 +377,107 @@ for_block: DO_IT stmtlist ENDFOR
 		}
 ;
 cases:	
-		  VALUE VARIABLE TWO_POINTS value_block
+		  CASES controlSymbol LPAREN exp RPAREN case_list default_stmt END_CASE
 		{
-			
+			$$ = new lp::CasesStmt($4,$6,$7);
 		}
-		| DEFAULT TWO_POINTS value_block
+		| CASES controlSymbol LPAREN exp RPAREN case_list END_CASE
 		{
+			$$ = new lp::CasesStmt($4,$6);
+		}
+case_list:
+		  {
+			$$ = new std::list<lp::CaseNode*>();
+		  }
+		| case case_list
+		  {
+			  $$=$2;
+			  $$->push_back($1);
+		  }
+case:	
+		  VALUE STRING TWO_POINTS stmtlist
+		  {
+			  	lp::ExpNode * exp = new lp::StringNode($2);
+				lp::BlockStmt *block = new lp::BlockStmt($4);
+			  	$$ = new lp::CaseNode(exp, block);
+		  }
+		| VALUE CONSTANT TWO_POINTS stmtlist
+		  {
+			 	lp::ExpNode * exp = new lp::ConstantNode($2);
+			  	lp::BlockStmt *block = new lp::BlockStmt($4);
+			  	$$ = new lp::CaseNode(exp, block);
+		  }
+		| VALUE NUMBER TWO_POINTS stmtlist
+		  {
+			  	lp::ExpNode * exp = new lp::NumberNode($2);
+			  	lp::BlockStmt *block = new lp::BlockStmt($4);
 
-		}
-case:
-		{
-		}
+			  	$$ = new lp::CaseNode(exp, block);
+		  }
 ;
+default_stmt :	
+			  DEFAULT TWO_POINTS stmtlist
+			  {
+				  	lp::BlockStmt *block = new lp::BlockStmt($3);
+					$$ = new lp::CaseNode(NULL, block);				  
+			  }
 
-
+controlSymbol:  /* Epsilon rule*/
+		{
+			// To control the interactive mode in "if" and "while" sentences
+			control++;
+		}
+	;
 
 	/*  NEW in example 17 */
 if:	/* Simple conditional statement */
-	IF cond THEN stmtlist ENDIF
+	IF controlSymbol cond THEN stmtlist ENDIF
     {
-		lp::BlockStmt *block=new lp::BlockStmt($4);
+		lp::BlockStmt *block=new lp::BlockStmt($5);
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2,block  );
+		$$ = new lp::IfStmt($3,block  );
+
+		control--;
 	}
 
 	/* Compound conditional statement */
-	| IF cond THEN stmtlist  ELSE stmtlist ENDIF
+	| IF controlSymbol cond THEN stmtlist  ELSE stmtlist ENDIF
 	 {
 		// Create a new if statement node
-		$$ = new lp::IfStmt($2,new lp::BlockStmt($4), new lp::BlockStmt($6));
+		$$ = new lp::IfStmt($3,new lp::BlockStmt($5), new lp::BlockStmt($7));
+		control--;
 	 }
 ;
 
 	/*  NEW in example 17 */
-while:  WHILE cond while_block
+while:  WHILE controlSymbol cond while_block
 		{
 			// Create a new while statement node
-			$$ = new lp::WhileStmt($2, $3);
+			$$ = new lp::WhileStmt($3, $4);
+
+			control--;
         }
 ;
 
-do_while: do_while_block cond
+do_while: controlSymbol do_while_block cond
 	{
-		$$ = new lp::DoWhileStmt($1, $2);
+		$$ = new lp::DoWhileStmt($2, $3);
+
+		control--;
 	}
 ;
 
-for: FOR VARIABLE FROM exp UNTIL exp for_block
+for:  FOR controlSymbol VARIABLE FROM exp UNTIL exp for_block
 	{
-		$$= new lp::ForStmt($2,$4,$6,$7);
+		$$= new lp::ForStmt($3,$5,$7,$8);
+
+		control--;
 	}
-	|FOR VARIABLE FROM exp UNTIL exp STEP exp for_block
+	| FOR controlSymbol VARIABLE FROM exp UNTIL exp STEP exp for_block
 	{
-		$$= new lp::ForStmt($2,$4,$6,$9,$8);
+		$$= new lp::ForStmt($3,$5,$7,$10,$9);
+
+		control--;
 	}
 ;
 cond: 	LPAREN exp RPAREN
@@ -414,10 +485,6 @@ cond: 	LPAREN exp RPAREN
 			$$ = $2;
 		}
 ;
-cases: CASE LPAREN exp RPAREN cases_block
-		{
-
-		}
 
 asgn:   VARIABLE ASSIGNMENT exp
 		{ 
