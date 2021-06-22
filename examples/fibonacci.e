@@ -6,10 +6,10 @@ Leer(n);
 
 si (n = 0)
 	entonces Escribir(0);
-sino
+si_no
 si (n = 1)
 	entonces Escribir(1);
-sino
+si_no
 	a := 1;
 	b := 1;
 	c := 0;
