@@ -65,7 +65,7 @@ lp::AST *root; //!< Root of the abstract syntax tree AST
 
 /*
  jhmp_buf
-    This is an array type capable of storing the information of a calling environment to be restored later.
+	This is an array type capable of storing the information of a calling environment to be restored later.
    This information is filled by calling macro setjmp and can be restored by calling function longjmp.
 */
 extern jmp_buf begin; //!<  It enables recovery of runtime errors 
@@ -100,32 +100,29 @@ int main(int argc, char *argv[])
  
  /* 
    If the input file exists 
-      then 
-           it is set as input device for yylex();
-      otherwise
-            the input device is the keyboard (stdin)
+	  then 
+		   it is set as input device for yylex();
+	  otherwise
+			the input device is the keyboard (stdin)
  */
-  if (argc == 2) 
- { 
+ 	if (argc == 2) { 
+		std::string aux=argv[1];
+		yyin = fopen(argv[1],"r");
 
-    std::string aux=argv[1];
 
-     yyin = fopen(argv[1],"r");
-	if(!yyin)
-  {
-	    warning("Error,fichero no existe:", argv[1]);
-	    return 0;
+		if(!yyin) {
+			warning("Error,fichero no existe:", argv[1]);
+			return 0;
+		}
+		
+		if(aux.substr(aux.find_last_of(".") + 1)!="e"&&aux.substr(aux.find_last_of(".") + 1)!="E"){
+			warning("Error,fichero con extension erronea:", argv[1]);
+			return 0;
+		}
+		
+		interactiveMode = false;
 	}
-     if(aux.substr(aux.find_last_of(".") + 1)!="e"&&aux.substr(aux.find_last_of(".") + 1)!="E"){
-	  warning("Error,fichero con extension erronea:", argv[1]);
-	  return 0;
-     }
-	 interactiveMode = false;
- }
-else
- {
-	interactiveMode = true;
- }
+	else { interactiveMode = true; }
 
  // Copy the name of the interpreter 
 	progname = argv[0];
@@ -151,7 +148,7 @@ else
  if (interactiveMode == false)
  {
   /* NEW in example 15 */
-    //root->print(); 
+	//root->print(); 
    root->evaluate();
  }
 
