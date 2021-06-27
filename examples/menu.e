@@ -2,6 +2,8 @@
 	Programa EJEMPLO de ipe.exe
 	En este ejemplo nuestro programa puede hacer dos acciones distintas mostrando todas las capacidades de nuestro lenguaje:
 	Calcular fibonacci
+	Bucle invertido
+	Concatenacion de cadenas
 >>
 
 #borrar;
